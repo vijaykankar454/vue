@@ -5,8 +5,8 @@
                 <p>Get best property deals</p>
             </div>
             <div class="form animate__animated animate__backInUp" >
-                <div class="button-wrap"><a class="button block red" @click="updateStatus(1)">Existing user ? Login</a></div>
-                <div class="button-wrap"><a class="button block white" @click="updateStatus(4)">New user ? Signup</a></div>
+                <div class="button-wrap"><a class="button block red" @click="updateStatus(1)">Sign Up / Sign In</a></div>
+                <!--<div class="button-wrap"><a class="button block white" @click="updateStatus(4)">New user ? Signup</a></div>-->
         </div>
     </div>
 </template>

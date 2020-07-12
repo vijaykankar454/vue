@@ -63,12 +63,24 @@ export default {
       return isMobile ? true : false
     }
   },
+  mounted () {
+    //  [App.vue specific] When App.vue is finish loading finish the progress bar
+    this.$Progress.finish()
+  },
   created() {
-    setTimeout(function() {
-      var intro = document.getElementsByClassName('intro-wrapper');
-      intro[0].style.display = 'none';
-    }, 5000);
+    this.$Progress.start()
+    if(localStorage.getItem('virtual_token') && localStorage.getItem('virtual_key')){
+      if(localStorage.getItem('virtual_username') == ''){
+       this.showModal = true
+       this.$store.commit('changeStatus',4);
 
+      }else{
+        this.$router.push('/dashboard');
+      }
+    }else{
+      this.$store.dispatch('verifyOfferKey', this.$route.params.keyname);
+    }
+   
   },
   components: {
     appModel: LoginModel,

@@ -2,6 +2,8 @@
     <div>
 
     <router-view></router-view>
+    <vue-progress-bar></vue-progress-bar>
+    <div id='loading' v-show='getLoadingcurrent'></div>
      </div>
 </template>
 
@@ -10,10 +12,15 @@
   export default {
       data:function(){
             return {
-                color: 'red'
+                color: 'red',
+                loading: false
             }
         } ,
-       
+        computed: {
+            getLoadingcurrent() {
+            return this.$store.getters.getLoading
+            }, 
+        },
         components: {
             appHeader: Header
         },

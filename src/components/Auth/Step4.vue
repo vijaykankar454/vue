@@ -4,9 +4,22 @@
                 <p>Just complete last step</p>
             </div>
             <form @submit.prevent="onRegister">
+               <p class="error">{{getLoginErr}}</p>
             <div class="form animate__animated animate__backInUp" >
+                <div class="input-wrap"> <input 
+                        type="text" 
+                        id="full_name" 
+                        @blur="$v.full_name.$touch()" 
+                        class="input"  autocomplete="off" 
+                        v-model="full_name" min="0" 
+                        placeholder="Enter Full Name">
+                 <p class="error"  v-if="!$v.full_name.required && submitStatus=='ERROR'">Please  enter Full Name.</p>
+               
+                </div>
+
+
                  <div class="input-wrap"> <input 
-                        type="email"
+                        type="email" autocomplete="off" 
                         id="email" 
                         @blur="$v.email.$touch()" 
                         class="input" 
@@ -17,21 +30,10 @@
                 </div>
 
 
-                <div class="input-wrap"> <input 
-                        type="number" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"
-                        id="mobile" 
-                        @blur="$v.mobile.$touch()" 
-                        class="input" 
-                        v-model="mobile" min="0" 
-                        placeholder="Enter Mobile no.">
-                 <p class="error"  v-if="!$v.mobile.required && submitStatus=='ERROR'">Please  enter Email ID/ Mobile Number.</p>
-                <p  class="error"  v-if="!$v.mobile.minLength">Allow only 10 characters</p>
-                <p  class="error"  v-if="!$v.mobile.maxLength">Allow only 10 characters</p>
-                 <p  class="error"  v-if="!$v.mobile.integer">Please enter valid mobile number</p>
-                </div>
+              
                 <div class="input-wrap"><input 
                                     type="password" 
-                                    id="password" 
+                                    id="password"  
                                     @blur="$v.mobile.$touch()" 
                                     class="input" 
                                     v-model="password" 
@@ -52,7 +54,7 @@ export default {
      data () {
       return {
         email: '',
-        mobile: '',
+        full_name: '',
         password: '',
         submitStatus: null
       }
@@ -62,11 +64,8 @@ export default {
         required,
         email
       },
-      mobile: {
-        required,
-        integer,
-        minLength: minLength(10),
-        maxLength: maxLength(10),
+      full_name: {
+        required
       },
       password: {
         required,
@@ -74,23 +73,29 @@ export default {
         maxLength: maxLength(20),
       }
     },
+    computed: {
+        getLoginErr () {
+            return this.$store.getters.getupdateErr
+        }
+    },
      methods:{
               updateStatus:function(status){
                 this.$store.commit('changeStatus',status);
               },
                onRegister () {
-                this.$v.$touch()
+               
                 if (this.$v.$invalid) {
                     this.submitStatus = 'ERROR'
                 } else {
                     const formData = {
-                        mobile: this.mobile,
+                        full_name: this.full_name,
                         password: this.password,
-                         email: this.email
+                        email_id: this.email,
+                        login_by:'',
+                        request_from:'registration'
                     }
-                    //this.$store.dispa
                     this.$store.dispatch('signup', formData)
-                }
+                  }
                 }
         },
 

@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import config from './config.js'
 
 import HomePage from './components/home/Home.vue'
 import InformationDeskPage from './components/desk/informationdesk.vue'
@@ -10,14 +11,68 @@ import StallsPage from './components/dashboard/stalls.vue'
 Vue.use(VueRouter)
 
 const routes = [
-  { path: '/', component: HomePage },
+  
   { path: '/informationdesk', component: InformationDeskPage },
   { path: '/exhibitor', component: ExhibitorPage },
-  { path: '/dashboard', component: DashboardPage },
-  { path: '/stall/:id', name: 'stalldetail',component: StallPage },
-  { path: '/stalls', component: StallsPage },
-  { path: '*', redirect: '/' }
+  {
+    path: '/dashboard',
+    component: DashboardPage,
+    beforeEnter(to, from, next) {
+      if (localStorage.getItem('virtual_username') == '') {
+        next(localStorage.getItem('virtual_key'))
+      }
+      else if (localStorage.getItem('virtual_token')) {
+        next()
+      } else {
+        if (localStorage.getItem('virtual_key')) {
+          next(localStorage.getItem('virtual_key'))
+        } else {
+          location.href = config.DEFAULT_URL.HOST_URL;
+        }
+      }
+    }
+  },
+  {
+    path: '/stall/:id',
+    name: 'stalldetail',
+    component: StallPage,
+    beforeEnter(to, from, next) {
+      if (localStorage.getItem('virtual_username') == '') {
+        next(localStorage.getItem('virtual_key'))
+      }
+      else if (localStorage.getItem('virtual_token')) {
+        next()
+      } else {
+        if (localStorage.getItem('virtual_key')) {
+          next(localStorage.getItem('virtual_key'))
+        } else {
+          location.href = config.DEFAULT_URL.HOST_URL;
+        }
+      }
+    }
+  },
+  {
+    path: '/stalls/:id?',
+    name: 'stallcomdetail',
+    component: StallsPage,
+    beforeEnter(to, from, next) {
+      if (localStorage.getItem('virtual_username') == '') {
+        next(localStorage.getItem('virtual_key'))
+      }
+      else  if (localStorage.getItem('virtual_token')) {
+        next()
+      } else {
+        if (localStorage.getItem('virtual_key')) {
+          next(localStorage.getItem('virtual_key'))
+        } else {
+          location.href = config.DEFAULT_URL.HOST_URL;
+        }
+      }
+    }
+  },
+  { path: '/:keyname', component: HomePage },
+  //{ path: '*', redirect: '/bhopal' }
  
 ]
 
-export default new VueRouter({mode: 'history', routes})
+export default new VueRouter({mode: 'hash',base: "virtual-expo", routes})

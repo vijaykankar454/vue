@@ -7,7 +7,6 @@ html {
   margin: 0;
   font-family: 'Raleway', sans-serif;
   font-size: 14px;
-  /* background: #feed01; */
   background: #fff;
 }
 svg {
@@ -87,10 +86,12 @@ a {
   width: 100%;
   display: block;
 }
-.button.ripple {
+.button.ripple,
+.link.ripple {
   position: relative;
 }
-.button.ripple:before {
+.button.ripple:before,
+.link.ripple:before {
   content: '';
   background: url('~@/assets/ripple.svg') no-repeat center;
   background-size: cover;
@@ -139,14 +140,15 @@ h4 {
   bottom: 0;
   left: 0;
   z-index: 2;
-  background: url(~@/assets/hero-bg.jpg) no-repeat center;
+ /* background: url(~@/assets/hero-bg.jpg) no-repeat center;*/
+ background: url(https://vijay.homeonline.com//public/uploads/virtualexpo/hero-bg.jpg) no-repeat center;
   background-size: cover;
 }
 .lobby-banner {
-  background-image: url(~@/assets/2x-lobby.png);
+  background-image: url(https://vijay.homeonline.com//public/uploads/virtualexpo/lobby.png);
 }
 .stall-banner {
-  background-image: url('~@/assets/2x-inside.png');
+  background-image: url('https://vijay.homeonline.com//public/uploads/virtualexpo/interior.png');
 }
 .wrapper {
   position: absolute;
@@ -173,6 +175,7 @@ h4 {
 .navbar .logo {
   padding: 5px 10px;
   margin-right: auto;
+  max-width: 140px;
 }
 .navbar .user {
   padding: 10px 10px 10px 5px;
@@ -185,6 +188,7 @@ h4 {
   display: block;
   font-size: 1.2em;
 }
+.navbar .user .logout { display: none;}
 .navbar .menu-toggle {
   width: 48px;
   height: 48px;
@@ -211,6 +215,10 @@ h4 {
   padding: 1em;
   color: #000f60;
 }
+.navbar .menu a:hover, .navbar .menu a:focus {
+  color: #ff0741;
+}
+.navbar .help { width: 30px; height: 26px; margin-right: 10px; }
 .intro-wrapper {
   background: rgba(0, 0, 0, 0.7);
   position: fixed;
@@ -302,8 +310,7 @@ h4 {
   background: black;
 }
 .led-panel .platinum figure,
-.led-panel .gold figure,
-.silver-panels .item figure {
+.led-panel .gold figure {
   background-color: white;
   border: 3px solid black;
   border-radius: 4px;
@@ -315,11 +322,10 @@ h4 {
   justify-content: center;
 }
 .led-panel .platinum img,
-.led-panel .gold img,
-.silver-panels img {
+.led-panel .gold img {
   max-height: 100%;
-  /* animation: bounceIn;
-            animation-duration: 1s; */
+  animation: bounceIn;
+  animation-duration: 1s; 
 }
 .led-panel .gold {
   margin-left: 10px;
@@ -335,9 +341,8 @@ h4 {
   height: 18px;
   background: black;
 }
-.led-panel .gold figure,
+.gold-slider .item figure, 
 .silver-panels .item figure {
-  height: 58px;
   border: 2px solid black;
   border-radius: 3px;
 }
@@ -347,28 +352,20 @@ h4 {
 .silver-panels {
   position: relative;
   z-index: 5;
-  display: flex;
-  overflow-x: auto;
   margin: 10px;
   padding-bottom: 5px;
-}
-.silver-panels .item {
-  min-width: 100px;
-  min-height: 65px;
-  width: 100px;
-  margin-right: 10px;
 }
 .info-desk {
   position: relative;
   z-index: 5;
-  /* background: url(~@/assets/helpdesk.png) no-repeat right bottom;
-    background-size: auto 280px; */
   text-align: center;
   margin-top: 20px;
 }
 .info-desk .button {
-  display: inline-block;
+  display: inline-block; font-size: 20px; font-weight: bold;
 }
+.info-desk .button.ripple:before { height: 200%; }
+.info-desk .link.ripple:before { background-image: url(~@/assets/ripple-blue.svg); width: 100px; height: 100px; bottom: 10%; right: 20%; left: initial; top: initial; transform: none; }
 .info-desk .helpdesk {
   max-height: 280px;
 }
@@ -392,14 +389,15 @@ h4 {
   /*display: none;*/
   background: #feed01;
   animation: slideInUp;
-  animation-duration: 1s;
+  animation-duration: 800ms;
   overflow-x: hidden;
   overflow-y: auto;
 }
 .modal .modal-inner {
-  background: url(~@/assets/modal-header.png) no-repeat center top;
+  background: url(https://vijay.homeonline.com//public/uploads/virtualexpo/modal-header.png) no-repeat center top;
   background-size: contain;
   padding: 300px 20px 20px;
+  overflow: hidden;
 }
 .modal .modal-title {
   text-align: center;
@@ -422,6 +420,7 @@ h4 {
   padding: 8px;
   background: white;
   border: 0 none;
+  cursor: pointer;
 }
 .modal.bottom {
   background: white;
@@ -438,6 +437,7 @@ h4 {
 }
 .builders {
   font-size: 16px;
+  overflow-y: hidden;
 }
 .builders ul {
   list-style: none;
@@ -452,40 +452,44 @@ h4 {
 .builders li .button {
   margin-left: auto;
 }
+.builders .logo { margin: 0; width: 120px;height: 80px; margin-right: 1em; border: 1px solid #ddd;padding: 2px; }
+.builders .logo img { object-fit: contain; height: 80px; width: 120px; }
 .stalls {
   position: relative;
-  margin: 50px 10px;
+  margin: 2em 2.5em;
   z-index: 2;
-  display: flex;
-  overflow-x: auto;
 }
 .stalls .stall {
-  min-width: 300px;
-  margin: 0 15px;
+  margin: 0;
+  text-align: center;
+
 }
+.stalls .stall figure { margin: 4em 0 0; position: relative; }
+.stalls .stall figure img { position: relative; z-index: 2; }
+.stalls .stall figure:after { content: ''; background: url('~@/assets/ripple-blue.svg') no-repeat bottom center; background-size: contain; position: absolute; bottom: 1%; left: 0; width: 100%; height: 100px; z-index: 11; }
+.stalls .stall .detail {margin-top: 2em;}
 .detail {
   position: relative;
   z-index: 2;
 }
 .detail .stall {
   margin: 20px auto;
-  padding: 0 10px;
+  padding: 0 0;
 }
 .detail .offer {
-  background: #fece00;
+  background: #fece00 /* url('~@/assets/spcial-offer.png') no-repeat top left */;
   border-radius: 8px;
   margin: 15px;
   text-align: center;
-  font-size: 18px;
+  font-size: 16px;
   padding: 15px;
 }
 .detail .offer h2 {
-  font-size: 1.75em;
+  font-size: 1.5em;
 }
 .detail .view-detail {
   padding: 15px;
   font-size: 18px;
-  background: white;
 }
 .detail .view-detail .button {
   background: #151515;
@@ -493,6 +497,7 @@ h4 {
   border-radius: 8px;
 }
 .back {
+  background: rgba(25,25,25,0.45);
   display: flex;
   align-items: center;
   position: relative;
@@ -542,18 +547,203 @@ h4 {
 .form .flex .input-wrap:first-child {
   margin-left: 0;
 }
+.navbar .menu-desktop { display: none; }
+.list-wrapper .flex {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+.list-wrapper .card {
+  font-size: 14px;
+  margin-bottom: 1.25em;
+  padding: 0.5em;
+  box-shadow: 0 1px 5px rgba(50,50,50,0.25);
+}
+
+.list-wrapper .card .card-image {
+  width: 150px;
+  max-width: 150px;
+  height: 100px;
+  position: relative;
+  font-size: 11px;
+}
+@media screen and (max-width:600px){
+.list-wrapper .card .card-image {
+  width:135px;
+}
+}
+
+.list-wrapper .card .card-image img {
+  width: 100%;
+  height: 100px;
+  object-fit: cover;
+}
+
+/*.list-wrapper .card .card-image .favorite,
+.list-wrapper .card .card-image .plan-name,
+.list-wrapper .card .card-image .count {
+  position: absolute;
+  z-index: 5;
+  background: rgba(51, 51, 51, 0.6);
+  color: #fff;
+}
+.list-wrapper .card .card-image .favorite {
+  width: 36px;
+  height: 36px;
+  padding: 5px;
+  border-radius: 50px;
+  display: block;
+  top: 10px;
+  left: 10px;
+}
+.list-wrapper .card .card-image .favorite path {
+  fill: rgba(255, 255, 255, 0.4);
+  stroke: #fff;
+  stroke-dasharray: 500;
+  stroke-dashoffset: 50;
+}
+.list-wrapper .card .card-image .favorite.active path {
+  animation: dash 3s linear infinite reverse;
+  fill: #ffb251;
+}
+.list-wrapper .card .card-image .plan-name {
+  right: 0;
+  top: 0;
+}
+.list-wrapper .card .card-image .count {
+  right: 0;
+  bottom: 0;
+}*/
+.list-wrapper .card .prop-details {
+  padding-left: 10px;
+  flex-grow: 1;
+  font-size: 12px;
+}
+
+.list-wrapper .card .price {
+  justify-content: space-between;
+}
+
+.list-wrapper .card .price .prices {
+  font-size: 16px; color: #ff7701;
+}
+
+.list-wrapper .card .rera,
+.list-wrapper .card .offer {
+  background-color: #1d86a4;
+  color: #fff;
+  font-size: 10px;
+  padding: 2px 8px;
+  border-radius: 10px;
+  display: inline-block;
+  vertical-align: text-top;
+}
+.list-wrapper .card .offer {
+  background: #f7245c;
+}
+.list-wrapper .card .prop-title {
+  margin: 3px 0;
+  font-size: 14px;
+  font-weight:normal;
+}
+
+.list-wrapper .card .builder-name,
+.list-wrapper .card .location-name,
+.list-wrapper .card .proj-units,
+.list-wrapper .card .other-charges,
+.list-wrapper .card .posted,
+.list-wrapper .card .seen-prop {
+  color: #757575;
+  font-size: 11px;
+}
+
+.list-wrapper .card .builder-name span {
+  color: #1d86a4;
+}
+
+.list-wrapper .card .location-name {
+  margin-top: 3px;
+}
+.verified {
+  font-size:10px;
+  color: #7db222;
+  background: url(https://cdn.homeonline.com/public/assets/frontend/images/verified-icon.svg) no-repeat center left;
+  background-size: 16px;
+  padding-left: 18px;
+  line-height:18px;
+}
+.list-wrapper .card .proj-units {
+  font-size: 11px;
+  margin-top: 3px;
+  margin-bottom: 3px;
+}
+
+.list-wrapper .card .posted {
+  font-size: 10px;
+  margin-top: 5px;
+  color: #b3b3b3;
+}
+
+/*.list-wrapper .card .locality-help {
+  font-size: 11px;
+}
+.list-wrapper .card .locality-help span::before {
+  content: '\f05d';
+  font-family: 'FontAwesome';
+  color: #7db222;
+  margin-right: 2px;
+}
+.list-wrapper .card .seen-prop {
+  font-size: 16px;
+  margin-right: auto;
+  color: #b3b3b3;
+}
+.list-wrapper .card .truncated {
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}*/
+.list-wrapper .card .btn-wrapper {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.list-wrapper .card .btn-wrapper a,
+.list-wrapper .card .btn-wrapper button,
+.list-wrapper .card .btn-wrapper input {
+  padding: 8px 24px; font-size: 12px; font-weight:normal; text-transform:uppercase;
+}
+
 @media screen and (min-width: 800px) {
+  .navbar .logo { max-width: 200px; margin-right: 0; }
+  .navbar .menu-toggle{ display: none; }
+  .navbar .menu { display: none; }
+  .navbar .menu-desktop { display: block; margin: 0 10px; font-size: 18px; }
+  .navbar .menu-desktop a { padding: 10px; color: #151515; margin: 0 10px; cursor: pointer; }
+  .navbar .menu-desktop a:hover { color: #ff0741; }
+  .navbar .user { display: flex; align-items: center; }
+  .navbar .user .icon { display: block; height: 28px; }
+  .navbar .user .logout { margin-left: 20px; display: block; }
+  .navbar .help { display: none; }
+
   .hero-banner,
   .lobby-banner,
   .stall-banner {
-    background-image: url('~@/assets/desktop-entry-bg.jpg');
+    background-image: url('https://vijay.homeonline.com//public/uploads/virtualexpo/desktop-entry-bg.jpg');
   }
   .lobby-banner {
-    background-image: url('~@/assets/desktop-lobby.jpg');
+    background-image: url('https://vijay.homeonline.com//public/uploads/virtualexpo/desktop-lobby.jpg');
   }
   .stall-banner {
-    background-image: url('~@/assets/desktop-interior.jpg');
+    background-image: url('https://vijay.homeonline.com//public/uploads/virtualexpo/desktop-hall.jpg');
   }
+  .stalls .stall a { padding: 0 10px; display: block; }
   .intro-wrapper {
     align-items: center;
   }
@@ -563,7 +753,7 @@ h4 {
   }
   .intro-wrapper .pointer,
   .intro-wrapper .ripple {
-    width: 250px;
+    width: 160px;
     overflow: hidden;
   }
   .navbar .menu {
@@ -571,7 +761,7 @@ h4 {
   }
   .modal {
     max-width: 460px;
-    margin: 4em auto;
+    margin: 2em auto;
   }
   .modal .modal-inner {
     padding-left: 30px;
@@ -581,6 +771,7 @@ h4 {
     top: auto;
     margin-bottom: 0;
   }
+  .modal.project { max-width: 640px; }
   .led-panel,
   .silver-panels {
     max-width: 780px;
@@ -592,10 +783,8 @@ h4 {
   .led-panel .platinum:before {
     width: 8px;
   }
-  .led-panel .platinum figure,
-  .led-panel .gold figure,
-  .silver-panels .item figure {
-    border-width: 4px;
+  .led-panel .platinum figure {
+    border-width: 4px 4px 6px;
     height: 100px;
   }
   .led-panel .gold-group {
@@ -604,40 +793,77 @@ h4 {
   .led-panel .gold:before {
     width: 6px;
   }
-  .led-panel .gold figure,
-  .silver-panels .item figure {
-    border-width: 3px;
+  .led-panel .gold figure{
+    border-width: 3px 3px 5px;
     height: 80px;
   }
   .silver-panels {
     overflow: initial;
     justify-content: center;
   }
-  .silver-panels .item {
-    width: 125px;
-    min-width: 125px;
-    margin-left: 5px;
-    margin-right: 5px;
+  .silver-panels .item figure {
+    border-width: 3px;
+    height: 76px;
+    margin: 0 5px;
+    padding: 3px;
+    background: #fff;
   }
+  .silver-panels .item img { object-fit: contain; height: 64px; width: 100%; }
   .info-desk {
     max-width: 780px;
-    margin: 30px auto 0;
+    margin: 20px auto 0;
   }
+  .stalls { 
+    max-width: 900px; margin: 2em auto;
+  }
+  .stalls .stall figure { margin-top: 0; }
+  .detail { display: flex; justify-content: center; }
+  .detail .view-detail { background: none; }
+  .detail .view-detail .button { background: #ff0741; }
+  .detail .stall { margin-right: 20px; }
+  .detail .right-col { margin-right: auto; }
+  .info-desk .link.ripple:before { bottom: 16%; right: 16.5%; }
 }
 @media screen and (max-width: 799px) {
   .led-panel,
   .silver-panels {
     max-width: 480px;
-    margin: auto;
-    padding: 0 15px;
+    margin: 0 auto;
   }
+  .silver-panels { margin: 10px auto; padding: 0 5px; }
+  .silver-panels figure { margin: 0 5px; padding: 2px; height: 58px; background: #fff; text-align: center; }
+  .silver-panels .item img { object-fit: contain; height: 50px; width: 100%; }
+  .led-panel { justify-content: center; }
+  .led-panel .platinum-group { max-width: initial; }
+  .led-panel .platinum figure { width: 175px; height: 95px; }
+  .gold-slider { background: #feed01; position: relative; z-index: 5; padding: 10px; margin: 10px 0; }
+  .gold-slider .item figure { height: 68px; padding: 2px; margin: 0 5px; text-align: center; background: #fff; }
+  .gold-slider .item img { object-fit: contain; height: 58px; width: 100%; }
   .info-desk {
     max-width: 480px;
     margin: 25px auto 0;
   }
+  .info-desk .button-wrap { margin-bottom: 10px; }
+  .info-desk .link.ripple:before { bottom: 10%; right: 30%;  }
+
 }
-@media screen and (min-width: 400px) {
-  .led-panel {
-    padding: 0 15px;
+ @media screen and (max-width: 400px) {
+  .info-desk .helpdesk {max-height: 200px;}
+  .info-desk .link.ripple:before { bottom: 10%; right: 20%;  }
+} 
+
+.error {
+  color: red;margin-left:8px;font-size:16px;
   }
+  #loading {
+    background: rgba(0,0,0,0) url(https://www.homeonline.com/dbho/assests/new/layouts/layout/img/pre-loader.gif) no-repeat scroll center center;
+    height: 100%;
+    left: 0;
+    margin: 0 auto;
+    position: fixed;
+    right: 0;
+    top: 0;
+    width: 100%;
+    z-index: 500000;
 }
+button:disabled{background: #ccc !important;}

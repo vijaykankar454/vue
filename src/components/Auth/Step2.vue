@@ -4,11 +4,12 @@
                 <p>Just a step away</p>
             </div>
              <form @submit.prevent="onSubmit">
+               <p class="error">{{getLoginErr}}</p>
             <div class="form animate__animated animate__backInUp">
                 <div class="input-wrap" :class="{invalid: $v.mobile.$error}">
                     <input 
                         type="text" 
-                        id="mobile" 
+                        id="mobile" autocomplete="off" 
                         @blur="$v.mobile.$touch()" 
                         class="input" 
                         v-model="mobile" 
@@ -30,7 +31,7 @@
                          <p  class="error"  v-if="!$v.password.maxLength">Maximum length is 40 characters</p>
                 </div>-->
                 <div class="button-wrap"><button type="submit" class="button block uppercase red" >Login</button></div>
-                <div class="button-wrap text-center"  @click="updateStatus(4)">New user ? <a>Signup</a></div>
+                <!--<div class="button-wrap text-center"  @click="updateStatus(4)">New user ? <a>Signup</a></div>-->
             </div>
              </form>
     </div>
@@ -59,12 +60,17 @@ export default {
         maxLength: maxLength(20),
       }*/
     },
+    computed: {
+        getLoginErr () {
+            return this.$store.getters.getupdateErr
+        }
+    },
      methods:{
               updateStatus:function(status){
                 this.$store.commit('changeStatus',status);
               },
              onSubmit () {
-                this.$v.$touch()
+               
                 if (this.$v.$invalid) {
                     this.submitStatus = 'ERROR'
                 } else {

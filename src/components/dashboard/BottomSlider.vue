@@ -1,27 +1,32 @@
 <template>
-<div class="silver-panels carousel">
-            <div class="item" v-for="list in silverBuilderList" v-bind:key="list.name">
-                <figure><img alt="list.name" title="list.name" :src="list.image"></figure>
-            </div>
-            
-        </div>
-</template>
+  <div class="silver-panels ">
 
+    <carousel :perPageCustom="[[320,4],[800,5]]" :autoplay="true" :autoplayTimeout="3000" :loop="true" :scrollPerPage="false" :paginationEnabled="false" >
+      <slide class="item" v-for="list in silverBuilderList" v-bind:key="list.stepid">
+        <figure><img v-if="isMobileData" :src="list.compMobileLogo" rel="preload" :alt="list.userCompanyName" :title="list.userCompanyName">
+        <img v-else :src="list.compDesktopLogo" rel="preload" :alt="list.userCompanyName" :title="list.userCompanyName">
+        </figure>
+      </slide>
+    </carousel>
+  </div>
+</template>
 <script>
+import { Carousel, Slide } from 'vue-carousel';
+import { isMobile } from 'mobile-device-detect';
+export default {
   
-  export default {
-     data:function(){
-            return {
-                 silverBuilderList: [
-                                {image: 'https://vijay.homeonline.com/180x80/public/uploads/profile/companyLogo/images_userCompanyLogo_1536228127.jpg', name: 'Sagar Builder1'},
-                                {image: 'https://vijay.homeonline.com/180x80/public/uploads/profile/companyLogo/images_userCompanyLogo_160401132030.jpg', name: 'Sagar Builder 2'},
-                                  {image: 'https://vijay.homeonline.com/180x80/public/uploads/profile/companyLogo/images_userCompanyLogo_1536228127.jpg', name: 'Sagar Builder 3'},
-                                {image: 'https://vijay.homeonline.com/180x80/public/uploads/profile/companyLogo/images_userCompanyLogo_160401132030.jpg', name: 'Sagar Builder 4'},
-                                  {image: 'https://vijay.homeonline.com/180x80/public/uploads/profile/companyLogo/images_userCompanyLogo_1536228127.jpg', name: 'Sagar Builder 5'},
-                                {image: 'https://vijay.homeonline.com/180x80/public/uploads/profile/companyLogo/images_userCompanyLogo_160401132030.jpg', name: 'Sagar Builder 6'},
-                               
-                            ]
-            }
-        }
+   computed: {
+    isMobileData() {
+      return isMobile ? true : false
+    },
+    silverBuilderList() {
+      return this.$store.getters.getdashboardSilver
+    }
+  },
+  components: {
+    Carousel,
+    Slide
   }
+}
+
 </script>

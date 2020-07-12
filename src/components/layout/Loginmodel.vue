@@ -33,7 +33,8 @@ c3.117-3.133,3.105-8.199-0.028-11.316l0,0L342.622,330.438z" />
     },
       methods:{
               hidemodal:function(){
-                this.$emit('modalstatus',false);  
+                this.$emit('modalstatus',false); 
+                this.$store.commit('updateErr','') 
               },
         },
         components: {

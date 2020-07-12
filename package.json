@@ -12,8 +12,13 @@
   "dependencies": {
     "axios": "^0.19.2",
     "mobile-device-detect": "^0.4.3",
+    "sweetalert2": "^9.15.3",
     "vue": "^2.5.11",
+    "vue-carousel": "^0.18.0",
+    "vue-otp-field": "^0.1.5",
+    "vue-progressbar": "^0.7.5",
     "vue-router": "^3.3.4",
+    "vue-simple-spinner": "^1.2.10",
     "vuelidate": "^0.7.5",
     "vuex": "^3.5.1"
   },
