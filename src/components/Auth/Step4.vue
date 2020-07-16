@@ -42,7 +42,7 @@
                          <p  class="error"  v-if="!$v.password.minLength">Minimum length is 4 characters</p>
                          <p  class="error"  v-if="!$v.password.maxLength">Maximum length is 40 characters</p></div>
                 <div class="button-wrap"><button  type="submit"  class="button block uppercase red">Register</button></div>
-                <div class="button-wrap text-center" @click="updateStatus(1)">Existing user ? <a>Login</a></div>
+               <!-- <div class="button-wrap text-center" @click="updateStatus(1)">Existing user ? <a>Login</a></div>-->
             </div>
             </form>
     </div>
@@ -83,7 +83,11 @@ export default {
                 this.$store.commit('changeStatus',status);
               },
                onRegister () {
-               
+                this.$ga.event({
+                    eventCategory:localStorage.getItem('virtual_key').replace('-', '_'),
+                    eventAction: 'New_User_Resigsteration',
+                    eventLabel: 'Virtual_Expo_Home'
+                })     
                 if (this.$v.$invalid) {
                     this.submitStatus = 'ERROR'
                 } else {

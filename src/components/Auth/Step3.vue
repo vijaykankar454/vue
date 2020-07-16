@@ -8,7 +8,7 @@
                
                  <vue-otp-field  :onFill="onFill" /></vue-otp-field><br>
                 <div class="button-wrap" ><button @click="onOtpSubmit" class="button block uppercase red">Submit</button></div>
-                <div class="button-wrap flex" style="justify-content: space-around;"><div>{{getrecentmobile}} <a   @click="updateStatus(1)">Edit</a><br> mobile no.</div><div>Didn't receive OTP ? <a @click="onRecentOTP">Resend</a></div></div>
+                <div class="button-wrap flex" style="justify-content: space-around;"><div>{{getrecentmobile}} <a   @click="updateStatus(1)">Edit</a><br> mobile no.</div><div v-if="getOtpCountNumber < 2">Didn't receive OTP ? <a @click="onRecentOTP">Resend</a></div></div>
             </div>
     </div>
 </template>
@@ -29,10 +29,18 @@
             },
             getLoginErr () {
                 return this.$store.getters.getupdateErr
+            },
+             getOtpCountNumber () {
+                return this.$store.getters.getOtpCount
             }
         },
         methods:{
                 updateStatus:function(status){
+                    this.$ga.event({
+                    eventCategory:localStorage.getItem('virtual_key').replace('-', '_'),
+                    eventAction: 'Click_On_Edit_Number',
+                    eventLabel: 'Virtual_Expo_Home'
+                    })     
                     this.$store.commit('updateErr','') 
                     this.$store.commit('changeStatus',status);
                 },
@@ -41,6 +49,11 @@
                     if(val.isFieldsComplete){ this.showButton = true; this.OTP =val.values }else{ this.showButton = false ;this.OTP =val.values}
                 },
                 onOtpSubmit(){
+                    this.$ga.event({
+                        eventCategory:localStorage.getItem('virtual_key').replace('-', '_'),
+                        eventAction: 'Click_On_Submit_OTP',
+                        eventLabel: 'Virtual_Expo_Home'
+                    })     
                     if(this.showButton){
                         this.getOTPErr  =''
                          const formData = {
@@ -53,7 +66,11 @@
                     }
                 },
                 onRecentOTP () {
-               
+                 this.$ga.event({
+                eventCategory:localStorage.getItem('virtual_key').replace('-', '_'),
+                eventAction: 'Click_On_Resend_OTP',
+                eventLabel: 'Virtual_Expo_Home'
+                })     
                 if (!this.$store.getters.recentmobile) {
                     this.$store.commit('updateErr','Mobile number not exist.')
                 } else {
@@ -62,6 +79,7 @@
                     }
                     //this.$store.dispa
                     this.$store.dispatch('login', formData)
+                    this.$store.commit('otpCount',1)
                 }
                 }
             

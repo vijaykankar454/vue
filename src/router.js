@@ -18,7 +18,7 @@ const routes = [
     path: '/dashboard',
     component: DashboardPage,
     beforeEnter(to, from, next) {
-      if (localStorage.getItem('virtual_username') == '') {
+      if (localStorage.getItem('virtual_email') == '') {
         next(localStorage.getItem('virtual_key'))
       }
       else if (localStorage.getItem('virtual_token')) {
@@ -37,7 +37,7 @@ const routes = [
     name: 'stalldetail',
     component: StallPage,
     beforeEnter(to, from, next) {
-      if (localStorage.getItem('virtual_username') == '') {
+      if (localStorage.getItem('virtual_email') == '') {
         next(localStorage.getItem('virtual_key'))
       }
       else if (localStorage.getItem('virtual_token')) {
@@ -56,7 +56,7 @@ const routes = [
     name: 'stallcomdetail',
     component: StallsPage,
     beforeEnter(to, from, next) {
-      if (localStorage.getItem('virtual_username') == '') {
+      if (localStorage.getItem('vvirtual_email') == '') {
         next(localStorage.getItem('virtual_key'))
       }
       else  if (localStorage.getItem('virtual_token')) {

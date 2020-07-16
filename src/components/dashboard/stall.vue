@@ -8,7 +8,7 @@
       </div>
       <div class="detail">
         <div class="stall animate__animated animate__zoomIn animate__fast">
-          <a href=""><img src="@/assets/booth.png" alt=""></a>
+          <a href=""><!--<img src="@/assets/booth.png" alt="">--></a>
         </div>
         <div class="right-col">
           <div class="offer animate__animated animate__bounceIn animate__delay-1s">

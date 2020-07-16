@@ -15,6 +15,11 @@
 export default {
      methods:{
               updateStatus:function(status){
+                this.$ga.event({
+                eventCategory:localStorage.getItem('virtual_key').replace('-', '_'),
+                eventAction: 'Click_On_Sign_In_Sign_Up',
+                eventLabel: 'Virtual_Expo_Home'
+                }) 
                 this.$store.commit('changeStatus',status);
               },
         },

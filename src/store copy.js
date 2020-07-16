@@ -24,9 +24,7 @@ export default new Vuex.Store({
     userUnitList: [],
     PopUpBuilderName: '',
     Loading: false,
-    otpNumber: 0,
-    metaTitleData: '',
-    metaDescData:''
+    otpNumber : 0
   },
   mutations: {
     changeStatus (state,step) {
@@ -83,13 +81,6 @@ export default new Vuex.Store({
     },
     otpCount(state, number) {
       state.otpNumber = state.otpNumber+number
-    },
-    setMetaTitle(state, info) {
-      state.metaTitleData = info
-    }
-    ,
-    setMetaDesc(state, info) {
-      state.metaDescData = info
     }
   },
   actions: {
@@ -100,11 +91,9 @@ export default new Vuex.Store({
       axios.post('expo/get_participant_list', formData)
         .then(res => {
           if (res.data.response_desc == 'Success') {
-            localStorage.setItem('MetaTitle', res.data.meta_title);
-            localStorage.setItem('MetaDescription', res.data.meta_description);
-            localStorage.setItem('virtual_key', offerkey)
-            commit('setMetaTitle', res.data.meta_title)
-            commit('setMetaDesc', res.data.meta_description)
+            localStorage.setItem('MetaTitle', 'value1');
+            localStorage.setItem('MetaDescription', 'value2');
+            localStorage.setItem('virtual_key',offerkey)
           } else {
             location.href = config.DEFAULT_URL.HOST_URL;
           }
@@ -277,43 +266,32 @@ export default new Vuex.Store({
       }
       axios.post('expo/get_participant_list', formData)
         .then(res => {
-          if (res.data.response_code == 200) {
-            let  popDtata = 0;
-            //const unitList = res.data.data[0].projects[0].units_availability
+          if (res.data.response_code == 200) { 
+            const unitList = res.data.data[0].projects[0].units_availability
             commit('setPopUpBuilderName', res.data.data[0].userCompanyName)
-            if (res.data.data[0].projects.length > 0) {
-              for (let keypro in res.data.data[0].projects) {
-                const unitList = res.data.data[0].projects[keypro].units_availability
-                if (unitList.length > 0) {
-                  popDtata = 1;
-                  for (let key in unitList) {
-                    const unitdatapush = {
-                      id: key,
-                      bhkData: (unitList[key].propertyUnitBedRooms != '' && unitList[key].propertyUnitBedRooms != 0) ? unitList[key].propertyUnitBedRooms + " BHK " + unitList[key].propertyUnitTypeNames : unitList[key].propertyUnitTypeNames,
-                      companyName: res.data.data[0].projects[keypro].projectName,
-                      projectAddress: res.data.data[0].projects[keypro].projectAddress1,
-                      projectCurrentStatus: res.data.data[0].projects[keypro].projectCurrentStatus,
-                      projectUrl: "/" + res.data.data[0].projects[keypro].link,
-                      projectImg: res.data.data[0].projects[keypro].projCoverImage,
-                      unitPrice: unitList[key].propertyUnitPriceRange,
-                      propertyKey: res.data.data[0].projects[keypro].projectKey,
-                      propertyUnitId: unitList[key].propertyUnitTypeIDs,
-                      propertyBhk: unitList[key].propertyUnitBedRooms,
-                      offerheadline: res.data.data[0].projects[keypro].offer_headline,
-                      offerdescription: res.data.data[0].projects[keypro].offer_description,
-                      unitsqft: (unitList[key].propertyUnitSqftRange != '') ? unitList[key].propertyUnitSqftRange + " sqft" : ""
-                    }
-                    
-                    commit('setUserUnitList', unitdatapush)
-                  }
-                    
+            if (unitList.length > 0) {
+              for (let key in unitList) {
+                const unitdatapush = {
+                  id:key,
+                  bhkData: (unitList[key].propertyUnitBedRooms != '' && unitList[key].propertyUnitBedRooms != 0) ? unitList[key].propertyUnitBedRooms + " BHK "+unitList[key].propertyUnitTypeNames : unitList[key].propertyUnitTypeNames,
+                  companyName: res.data.data[0].projects[0].projectName,
+                  projectAddress: res.data.data[0].projects[0].projectAddress1,
+                  projectCurrentStatus: res.data.data[0].projects[0].projectCurrentStatus,
+                  projectUrl: "/"+res.data.data[0].projects[0].link,
+                  projectImg: res.data.data[0].projects[0].projCoverImage,
+                  unitPrice: unitList[key].propertyUnitPriceRange,
+                  propertyKey: res.data.data[0].projects[0].projectKey,
+                  propertyUnitId: unitList[key].propertyUnitTypeIDs,
+                  propertyBhk: unitList[key].propertyUnitBedRooms,
+                  offerheadline: res.data.data[0].projects[0].offer_headline,
+                  offerdescription:res.data.data[0].projects[0].offer_description,
+                  unitsqft:(unitList[key].propertyUnitSqftRange != '') ? unitList[key].propertyUnitSqftRange+" sqft":""
                 }
+               
+                commit('setUserUnitList', unitdatapush)
               }
+              commit('showProject','block');
             }
-         
-           if (popDtata == 1) {
-              commit('showProject', 'block');
-           }
           } 
         })
         .catch(error => console.log(error))
@@ -402,13 +380,6 @@ export default new Vuex.Store({
     ,
     getOtpCount(state) {
       return state.otpNumber
-    },
-    getmetainfos(state) {
-      return state.metaTitleData
-    }
-    ,
-    getmetainfosdesc(state) {
-      return state.metaDescData
     }
   }
 })

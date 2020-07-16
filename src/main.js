@@ -7,7 +7,8 @@ import router from './router'
 import store from './store'
 import VueCarousel from 'vue-carousel';
 import config from './config.js'
-
+import VueAnalytics from 'vue-analytics';
+import VueMeta from 'vue-meta'
 import Swal from 'sweetalert2'
 window.Swal = Swal
 
@@ -32,9 +33,15 @@ const options = {
   height: '2px'
 }
 
+Vue.use(VueAnalytics, {
+  id: config.DEFAULT_URL.ANALYTICS,
+  router
+});
+
+Vue.use(VueMeta);
 Vue.use(VueProgressBar, options)
 
-axios.defaults.baseURL = config.DEFAULT_URL.HOST_URL+'/apis/v1/'
+axios.defaults.baseURL = config.DEFAULT_URL.HOST_URL+'apis/v1/'
 axios.defaults.headers.common['source'] = 'api'
 axios.defaults.headers.common['from'] = 'hs_app'
 

@@ -16,7 +16,7 @@
           <div class="button-wrap">
             <router-link to="/stalls" class="button  red animate__animated animate__headShake animate__repeat-3 ">Explore Expo</router-link>
           </div>
-          <a @click="openParticipant" class="text-right link ripple" style="display: block;"><img rel="preload" src="https://vijay.homeonline.com//public/uploads/virtualexpo/helpdesk.png" class="helpdesk" alt=""></a>
+          <a @click="openParticipant('Click_On_Info_Desk')" class="text-right link ripple" style="display: block;"><img rel="preload" src="https://cloudimage.homeonline.com//public/uploads/virtualexpo/helpdesk.png" class="helpdesk" alt=""></a>
         </div>
         <gold-slider></gold-slider>
         <bottom-slider></bottom-slider>
@@ -39,7 +39,7 @@
           <div class="button-wrap">
             <router-link to="/stalls" class="button  red animate__animated animate__headShake animate__repeat-3 ">Explore Expo</router-link>
           </div>
-          <a  @click="openParticipant" class="text-right link ripple " style="display: block;"><img src="~@/assets/helpdesk.png" class="helpdesk" alt=""></a>
+          <a  @click="openParticipant('Click_On_Info_Desk')" class="text-right link ripple " style="display: block;"><img src="https://cloudimage.homeonline.com//public/uploads/virtualexpo/helpdesk.png" class="helpdesk" alt=""></a>
         </div>
         <bottom-slider></bottom-slider>
       </div>
@@ -54,6 +54,12 @@ import GoldSlider from '@/components/dashboard/GoldSlider.vue';
 import ParticipantList from '@/components/dashboard/ParticipantList.vue';
 import { isMobile } from 'mobile-device-detect';
 export default {
+  metaInfo: {
+    title: localStorage.getItem('MetaTitle'),
+    meta: [
+      { name: "description", content: localStorage.getItem('MetaDescription') }
+    ]
+  },
   data: function() {
     return {
       activedisplay: 'none',
@@ -76,6 +82,7 @@ export default {
     }
   },
    created() {
+     sessionStorage.removeItem('virtual_url');
      this.$Progress.start()
      if(this.$store.getters.getdashboardSilver.length < 1){
         this.$store.dispatch('getParticipantList');
@@ -88,7 +95,12 @@ export default {
     participantList: ParticipantList
   },
   methods: {
-    openParticipant:function(){
+    openParticipant:function(tabType){
+        this.$ga.event({
+        eventCategory:localStorage.getItem('virtual_key').replace('-', '_'),
+        eventAction: tabType,
+        eventLabel: 'Virtual_Expo_Dashboard'
+        })     
         this.$store.commit('showParticipant','block')
         this.activedisplay='none'
     }

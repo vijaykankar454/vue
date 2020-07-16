@@ -70,7 +70,11 @@ export default {
                 this.$store.commit('changeStatus',status);
               },
              onSubmit () {
-               
+                this.$ga.event({
+                eventCategory:localStorage.getItem('virtual_key').replace('-', '_'),
+                eventAction: 'Click_On_Login',
+                eventLabel: 'Virtual_Expo_Home'
+                })     
                 if (this.$v.$invalid) {
                     this.submitStatus = 'ERROR'
                 } else {

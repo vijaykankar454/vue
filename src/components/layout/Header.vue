@@ -2,11 +2,11 @@
   <div>
     <nav class="navbar">
       <div class="logo animate__animated animate__bounceIn">
-        <img src="https://vijay.homeonline.com//public/uploads/virtualexpo/govirtual-logo.png" alt="logo">
+        <img src="https://cloudimage.homeonline.com//public/uploads/virtualexpo/govirtual-logo.png" alt="logo">
       </div>
       <div class="menu-desktop uppercase" v-if="getUserNameHeader">
-        <a @click="openParticipant">Information Desk</a>
-        <a @click="openParticipant">Exhibitors</a>
+        <a @click="openParticipant('Click_On_Information_Desk')">Information Desk</a>
+        <a @click="openParticipant( 'Click_On_Exhibitors')">Exhibitors</a>
         <a @click="onLogout" v-if="getUserNameHeader"> Logout</a>
         <a href="https://www.homeonline.com/mobile/post-your-requirements" target="_blank" >Help</a>
       </div>
@@ -34,8 +34,8 @@
       </div>
       <div v-if="getUserNameHeader" class="menu animate__animated animate__fadeInUp animate__faster" :style="{ display: activedisplay}">
         <ul>
-          <li><a @click="openParticipant">Information Desk</a></li>
-          <li><a @click="openParticipant">Exhibitors</a></li>
+          <li><a @click="openParticipant('Click_On_Information_Desk')">Information Desk</a></li>
+          <li><a @click="openParticipant( 'Click_On_Exhibitors')">Exhibitors</a></li>
           <li v-if="getUserNameHeader"> <a @click="onLogout"> Logout</a></li>
         </ul>
       </div>
@@ -81,6 +81,11 @@ export default {
   },
   methods: {
     showModaldata: function() {
+      this.$ga.event({
+        eventCategory:localStorage.getItem('virtual_key').replace('-', '_'),
+        eventAction: 'Click_On_Get_Started',
+        eventLabel: 'Virtual_Expo_Home'
+      })
       this.$emit('modalstatusheader', true);
       this.$store.commit('changeStatus', 0)
     },
@@ -94,7 +99,12 @@ export default {
     onLogout() {
       this.$store.dispatch('logout')
     },
-    openParticipant: function() {
+    openParticipant: function(tabType) {
+      this.$ga.event({
+        eventCategory:localStorage.getItem('virtual_key').replace('-', '_'),
+        eventAction: tabType,
+        eventLabel: 'Virtual_Expo_Dashboard'
+        })     
       this.$store.commit('showParticipant', 'block')
       this.activedisplay = 'none'
     },

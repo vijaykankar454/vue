@@ -5,7 +5,7 @@
       <div class="wrapper">
         <app-header @modalstatusheader="showModal=$event"></app-header>
         <div class="intro-wrapper">
-          <div class="info animate__animated animate__fadeInDown animate__delay-1s">
+          <div class="info animate__animated animate__jackInTheBox animate__delay-1s">
             <h3>Welcome to <span class="red-text">all new</span></h3>
             <h1><span class="red-text">Virtual</span> Expo</h1>
             <h4>Property deals on the go</h4>
@@ -51,6 +51,7 @@ import LoginModel from '@/components/layout/Loginmodel.vue';
 import Header from '@/components/layout/Header.vue';
 import { isMobile } from 'mobile-device-detect';
 export default {
+  
   data: function() {
     return {
       color: 'red',
@@ -61,15 +62,31 @@ export default {
   computed: {
     isMobileData() {
       return isMobile ? true : false
+    },
+    getMetaTitleInfo () {
+      return this.$store.getters.getmetainfos
+    },
+    getMetaTitleDesc () {
+      return this.$store.getters.getmetainfosdesc
     }
   },
   mounted () {
     //  [App.vue specific] When App.vue is finish loading finish the progress bar
     this.$Progress.finish()
   },
+   metaInfo() {
+       return {
+         title: this.getMetaTitleInfo,
+        meta: [
+        { name: "description", content: this.getMetaTitleDesc}
+        ]
+         // data is undefined
+    };
+  },
   created() {
+     sessionStorage.removeItem('virtual_url');
     this.$Progress.start()
-    if(localStorage.getItem('virtual_token') && localStorage.getItem('virtual_key')){
+    if(localStorage.getItem('virtual_token') && (localStorage.getItem('virtual_key')==this.$route.params.keyname)){
       if(localStorage.getItem('virtual_username') == ''){
        this.showModal = true
        this.$store.commit('changeStatus',4);
@@ -78,6 +95,13 @@ export default {
         this.$router.push('/dashboard');
       }
     }else{
+       localStorage.removeItem('virtual_token')
+        localStorage.removeItem('virtual_mobile')
+        localStorage.removeItem('virtual_email')
+        localStorage.removeItem('virtual_username')
+        sessionStorage.removeItem('virtual_url');
+        localStorage.removeItem('MetaTitle')
+        localStorage.removeItem('MetaDescription')
       this.$store.dispatch('verifyOfferKey', this.$route.params.keyname);
     }
    

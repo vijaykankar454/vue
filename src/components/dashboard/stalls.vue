@@ -24,7 +24,7 @@
             <!-- <router-link :to="{ name: 'stalldetail', params: { id: list.id, name: list.name }}"><img :src="list.image" :alt="list.name"></router-link> -->
             <div class="detail">
               <div class="offer animate__animated animate__bounceIn animate__delay-1s">
-                <h2 v-text="list.offerText"></h2>
+                <h2 >{{list.offerText | subofferDescriptionData}}</h2>
                <!-- on booking* Book Now to avail the exclusive offer.-->
               </div>
             </div>
@@ -43,11 +43,25 @@ import { Carousel, Slide } from 'vue-carousel';
 import { isMobile } from 'mobile-device-detect';
 
 export default {
+  metaInfo: {
+    title: localStorage.getItem('MetaTitle'),
+    meta: [
+      { name: "description", content: localStorage.getItem('MetaDescription') }
+    ]
+  },
   data: function() {
     return {
       projectModal: false,
     
     }
+  },
+   filters: {
+      subofferDescriptionData: function (value) {
+          if (!value) return ''
+          return value.substring(0,20) + '...';
+
+      }
+
   },
    mounted () {
     //  [App.vue specific] When App.vue is finish loading finish the progress bar
@@ -59,6 +73,22 @@ export default {
     Slide
   },
    created() {
+    
+    if(this.$route.params.id =='exhibitorlist'){
+       this.$ga.event({
+      eventCategory:localStorage.getItem('virtual_key').replace('-', '_'),
+       eventAction: 'Click_On_Explore_Expo_Banner',
+      eventLabel: 'List_of_Exhibitors'
+     
+      })   
+    }else{
+    this.$ga.event({
+      eventCategory:localStorage.getItem('virtual_key').replace('-', '_'),
+      eventAction: 'Click_On_Explore_Expo',
+      eventLabel: 'Virtual_Expo_Dashboard'
+      })     
+    }
+    sessionStorage.removeItem('virtual_url');
      this.$Progress.start()
      if(this.$store.getters.getStallnfo.length < 1){
           this.$store.dispatch('getStallDataInfo');
@@ -80,6 +110,11 @@ export default {
   methods: {
     showProjectModal: function(dataset) {
       // alert("click");
+       this.$ga.event({
+      eventCategory:localStorage.getItem('virtual_key').replace('-', '_'),
+      eventAction: 'Click_On_Stalls',
+      eventLabel: 'Virtual_Expo_Stalls'
+      })     
        this.$store.commit('setUserUnitList','');
       this.$store.dispatch('getStallDataInfoUnit',dataset.id);
       
